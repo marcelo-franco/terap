@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "easytimer.js": "^2.2.3",
     "electron": "^2.0.8"
   }
 }
