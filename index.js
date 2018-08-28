@@ -7,7 +7,11 @@ app.on('ready', () => {
     const tray = new Tray(`${__dirname}/robot.png`);
     tray.setToolTip('Esta é uma aplicação Electron');
     tray.on('click', () => {
-        console.log('Você clicou no ícone da aplicação');
+        if (mainWindow.isVisible()) {
+            mainWindow.hide();
+        } else {
+            mainWindow.show();
+        }
     });
     const contextMenu = Menu.buildFromTemplate(menuTemplate);
     tray.setContextMenu(contextMenu);
@@ -16,7 +20,8 @@ app.on('ready', () => {
         height: 150,
         width: 300,
         frame: false,
-        resizable: false
+        resizable: false,
+        show: false
     });
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 });
