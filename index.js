@@ -1,10 +1,11 @@
 const electron = require('electron');
+const ChronoTray = require('./app/chronotray');
 const { app, Tray, Menu, BrowserWindow } = electron;
 
 let mainWindow;
 
 app.on('ready', () => {
-    const tray = new Tray(`${__dirname}/robot.png`);
+    const tray = new ChronoTray(`${__dirname}/robot.png`);
     tray.setToolTip('Esta é uma aplicação Electron');
     tray.on('click', (event, bounds) => {
         //coordenadas do ícone da bandeja
