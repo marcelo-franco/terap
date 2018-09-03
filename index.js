@@ -10,7 +10,8 @@ app.on('ready', () => {
         width: 300,
         frame: false,
         resizable: false,
-        show: false
+        show: false,
+        skipTaskbar: true
     });
     const tray = new ChronoTray(`${__dirname}/robot.png`, mainWindow);
     mainWindow.loadURL(`file://${__dirname}/index.html`);
