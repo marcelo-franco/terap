@@ -13,6 +13,11 @@
     <script>
         const Timer = require('easytimer.js');
         const timer = new Timer();
+        const electron = require('electron');
+        const { ipcRenderer } = electron;
+
+        let timeUpdate;
+
         document.querySelector('#chronoExample .startButton').addEventListener('click', 
             function () {
                 timer.start();
@@ -34,16 +39,22 @@
             }
         );
         timer.addEventListener('secondsUpdated', function (e) {
+            timeUpdate = timer.getTimeValues().toString();
             document.querySelector('#chronoExample .values').innerHTML = 
-            timer.getTimeValues().toString();
+            timeUpdate;
+            ipcRenderer.send('timeUpdate', timeUpdate);
         });
         timer.addEventListener('started', function (e) {
+            timeUpdate = timer.getTimeValues().toString();
             document.querySelector('#chronoExample .values').innerHTML = 
-            timer.getTimeValues().toString();
+            timeUpdate;
+            ipcRenderer.send('timeUpdate', timeUpdate);
         });
         timer.addEventListener('reset', function (e) {
+            timeUpdate = timer.getTimeValues().toString();
             document.querySelector('#chronoExample .values').innerHTML = 
-            timer.getTimeValues().toString();
+            timeUpdate;
+            ipcRenderer.send('timeUpdate', timeUpdate);
         });
 	</script>
 </body>
