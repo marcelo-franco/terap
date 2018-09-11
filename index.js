@@ -135,7 +135,7 @@ autoUpdater.on('update-available', () => {
         buttons: ['ok'],
         title: 'Informação',
         message: 'Atualização disponível',
-        detail: a
+        detail: 'A aplicação não encontrou uma atualização no servidor'
     }
     
     dialog.showMessageBox(dialogOpts, (response) => {
@@ -149,7 +149,7 @@ autoUpdater.on('update-not-available', () => {
         buttons: ['ok'],
         title: 'Informação',
         message: 'Atualização não disponível',
-        detail: a
+        detail: 'A aplicação não encontrou uma atualização no servidor'
     }
     
     dialog.showMessageBox(dialogOpts, (response) => {
