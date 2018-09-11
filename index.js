@@ -3,7 +3,7 @@ const ChronoTray = require('./app/chronotray');
 const ws = require('windows-shortcuts');
 const { app, Menu, BrowserWindow, ipcMain, autoUpdater, dialog } = electron;
 const isDev = require('electron-is-dev');
-const server = 'https://hazel-server-kicqjdgcpy.now.sh'
+const server = 'https://hazel-server-jticjoauhu.now.sh'
 const feed = `${server}/update/${process.platform}/${app.getVersion()}`
 
 let mainWindow;
