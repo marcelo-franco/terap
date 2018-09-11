@@ -2,6 +2,7 @@ const electron = require('electron');
 const ChronoTray = require('./app/chronotray');
 const ws = require('windows-shortcuts');
 const { app, Menu, BrowserWindow, ipcMain, autoUpdater, dialog } = electron;
+
 const isDev = require('electron-is-dev');
 const server = 'https://hazel-server-jticjoauhu.now.sh'
 const feed = `${server}/update/${process.platform}/${app.getVersion()}`
@@ -88,17 +89,7 @@ app.on('ready', () => {
         setInterval(() => {
             autoUpdater.checkForUpdates();
         }, 60000)
-    } else {
-        const dialogOpts = {
-            type: 'info',
-            buttons: ['ok'],
-            title: 'É ambiente de desenvolvimento',
-            message: 'Só para avisar...',
-            detail: 'Mensagem para ter certeza que está detectando o ambiente corretamente'
-        }
-        
-        dialog.showMessageBox(dialogOpts, (response) => {})
-    }
+    } 
         
 });
 
@@ -127,32 +118,4 @@ autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
 autoUpdater.on('error', message => {
     console.error('Houve um problema ao atualizar a aplicação')
     console.error(message)
-});
-
-autoUpdater.on('update-available', () => {
-    const dialogOpts = {
-        type: 'info',
-        buttons: ['ok'],
-        title: 'Informação',
-        message: 'Atualização disponível',
-        detail: 'A aplicação não encontrou uma atualização no servidor'
-    }
-    
-    dialog.showMessageBox(dialogOpts, (response) => {
-        
-    })
-});
-
-autoUpdater.on('update-not-available', () => {
-    const dialogOpts = {
-        type: 'info',
-        buttons: ['ok'],
-        title: 'Informação',
-        message: 'Atualização não disponível',
-        detail: 'A aplicação não encontrou uma atualização no servidor'
-    }
-    
-    dialog.showMessageBox(dialogOpts, (response) => {
-        
-    })
 });
