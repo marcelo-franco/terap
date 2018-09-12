@@ -1,7 +1,12 @@
 const electron = require('electron');
 const ChronoTray = require('./app/chronotray');
 const ws = require('windows-shortcuts');
-const { app, Menu, BrowserWindow, ipcMain } = electron;
+const { app, Menu, BrowserWindow, ipcMain, autoUpdater, dialog } = electron;
+
+const isDev = require('electron-is-dev');
+const server = 'http://download.localhost:4000';
+
+const feed = `${server}/update/${process.platform}/${app.getVersion()}`;
 
 let mainWindow;
 let tray;
@@ -80,6 +85,13 @@ app.on('ready', () => {
         ws.create("%APPDATA%/Microsoft/Windows/Start Menu/Programs/Electron.lnk", process.execPath);
         app.setAppUserModelId(process.execPath);
     } 
+    if (isDev === false) {
+        autoUpdater.setFeedURL(feed)
+        setInterval(() => {
+                    autoUpdater.checkForUpdates()
+              }, 60000)
+        }
+        
 });
 
 ipcMain.on('timeUpdate', (event, timeUpdate) => {
@@ -89,4 +101,24 @@ ipcMain.on('timeUpdate', (event, timeUpdate) => {
         tray.setToolTip(timeUpdate);
     }
 });
+
+autoUpdater.on('update-downloaded', (event, releaseNotes, releaseName) => {
+    const dialogOpts = {
+      type: 'info',
+      buttons: ['Reiniciar', 'Mais tarde'],
+      title: 'Atualização da Aplicação',
+      message: process.platform === 'win32' ? releaseNotes : releaseName,
+      detail: 'Uma nova versão foi recebida. Reinicie a aplicação para aplicar a atualização.'
+    }
+  
+    dialog.showMessageBox(dialogOpts, (response) => {
+      if (response === 0) autoUpdater.quitAndInstall()
+    })
+});
+
+autoUpdater.on('error', message => {
+    console.error('Houve um problema ao atualizar a aplicação')
+    console.error(message)
+});
+
 
