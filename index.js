@@ -1,7 +1,7 @@
 const electron = require('electron');
 const ChronoTray = require('./app/chronotray');
 const ws = require('windows-shortcuts');
-const { app, Menu, BrowserWindow, ipcMain, autoUpdater, dialog } = electron;
+const { app, Menu, BrowserWindow, ipcMain, autoUpdater, dialog, crashReporter } = electron;
 
 const isDev = require('electron-is-dev');
 const server = 'http://download.localhost:4000';
@@ -89,9 +89,18 @@ app.on('ready', () => {
         autoUpdater.setFeedURL(feed)
         setInterval(() => {
                     autoUpdater.checkForUpdates()
-              }, 60000)
-        }
-        
+        }, 60000)
+    }
+    crashReporter.start({
+        productName: "cronometro",
+        companyName: "marcelo-franco",
+        submitURL: "https://marcelo-franco.sp.backtrace.io:8443/post?format=minidump&token=6dee997f1a8808df04b40045f5f696e12f654bbf7e7dd5bf70489254893d8a5e",
+        uploadToServer: true
+    });
+    
+    setTimeout(() => {
+        process.crash();
+    }, 30000);
 });
 
 ipcMain.on('timeUpdate', (event, timeUpdate) => {
