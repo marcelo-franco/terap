@@ -74,7 +74,10 @@ app.on('ready', () => {
         frame: false,
         resizable: false,
         show: false,
-        skipTaskbar: true
+        skipTaskbar: true,
+        webPreferences: {
+            nodeIntegration: true
+        }
     });
     tray = new ChronoTray(`${__dirname}/robot.png`, mainWindow);
     mainWindow.loadURL(`file://${__dirname}/index.html`);
